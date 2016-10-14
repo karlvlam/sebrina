@@ -9,8 +9,8 @@ function sebrina(cmd, cb){
         sub: function(){ stack.push(stack.pop() - stack.pop())},
         mult: function(){ stack.push(stack.pop() * stack.pop())},
         pow: function(){ stack.push(Math.pow(stack.pop(), stack.pop()))},
-        printStr: function(){ output += String.fromCodePoint(stack.pop())},
-        printNum: function(){ output += stack.pop().toString()},
+        flushStr: function(){ output += String.fromCodePoint(stack.pop())},
+        flushNum: function(){ output += stack.pop().toString()},
         push: function(val){ stack.push(val) },
     }
 
@@ -20,22 +20,22 @@ function sebrina(cmd, cb){
                 act['clear']()
                 break
             case 1:
-                act['add']()
-                break
-            case 2:
-                act['sub']()
-                break
-            case 3:
-                act['mult']()
-                break
-            case 4:
                 act['pow']()
                 break
+            case 2:
+                act['add']()
+                break
+            case 3:
+                act['sub']()
+                break
+            case 4:
+                act['mult']()
+                break
             case 5:
-                act['printStr']()
+                act['flushStr']()
                 break
             case 6:
-                act['printNum']()
+                act['flushNum']()
                 break
             default:
                 act['push'](n-7)
@@ -54,10 +54,10 @@ function sebrina(cmd, cb){
         })
         //console.log(count)
         if (count >= 1 && count <= 4 && stack.length < 2) { 
-            throw 'Error: Line ' + (idx-1) +' : stack needs 2 items'
+            throw 'Error: Line ' + (idx+1) +' : stack needs 2 items'
         }
         if (count >= 5 && count <= 6 && stack.length < 1) { 
-            throw 'Error: Line ' + (idx-1) +' : stack needs 1 item'
+            throw 'Error: Line ' + (idx+1) +' : stack needs 1 item'
         }
         op(count)
     }
@@ -91,13 +91,55 @@ function strToSebrina(s){
     return output
 }
 
-var a = "sebrina sebrina sebrina sebrina sebrina sebrina sebrina sebrina sebrina\n"
-a += "brina\n"
-a += "sebrina \n"
+function ss(s){
+    var key = 'sebrina'
+    var output = [] 
+    var andTable = [1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768] 
 
-var a = (strToSebrina('你好嘢'))
+    function _gen(n, isNum){
+        var o = []
+        if (isNum){
+            n += 7
+        }
+        for (var i=0; i < n; i++){
+            o.push(key)
+        }
+        return o.join(' ') + '\n'
+    }
+
+    function _genShort(n){
+        if (n < 16){
+            output.push(_gen(n, true))
+        }else{
+            andTable.forEach(function(s, idx){
+                if (n && s === s){
+                    if (s < 16){
+                        output.push(_gen(s, true))
+
+                    }else{
+                        output.push(_gen(idx, true))
+                        output.push(_gen(2, true))
+                        output.push(_gen(1))
+                    }
+                    output.push(_gen(2))
+                }
+            })
+            output.pop()
+        }
+
+    }
+    for (var i=0; i < s.length; i++){
+        _genShort(s.codePointAt(i)) 
+        output.push(_gen(5))
+    }
+    return output.join('')
+}
+
+
+//var a = (strToSebrina('你好嘢'))
+var a = (ss('A'))
+//console.log(a);
 sebrina(a, function(err, result){
     console.log(err)
     console.log(result)
 })
-
