@@ -1,6 +1,6 @@
 
 
-function sebrina(cmd){
+function sebrina(cmd, cb){
     var key = 'sebrina'
     var output = ''
     var act = {
@@ -45,22 +45,38 @@ function sebrina(cmd){
 
 
     var stack = []
-    function processLine(line){
+    function processLine(line, idx){
         var count = 0
         line.split(' ').forEach(function(w){
             if (w === key){
                 count += 1
             }
         })
-        console.log(count)
+        //console.log(count)
+        if (count >= 1 && count <= 4 && stack.length < 2) { 
+            throw 'Error: Line ' + (idx-1) +' : stack needs 2 items'
+        }
+        if (count >= 5 && count <= 6 && stack.length < 1) { 
+            throw 'Error: Line ' + (idx-1) +' : stack needs 1 item'
+        }
         op(count)
     }
-    cmd.toLowerCase().split('\n').forEach(processLine)
-    console.log(output)
+    try{
+        cmd.toLowerCase().split('\n').forEach(processLine)
+    }catch(err){
+        cb(err)
+        return
+    }
+    cb(null, output)
 
 }
 
 var a = "sebrina sebrina sebrina sebrina sebrina sebrina sebrina sebrina sebrina\n"
-a += "sebrina a b c sebrina sebrina sebrina sebrina sebrina\n"
+a += "brina\n"
+a += "sebrina \n"
 
-sebrina(a)
+sebrina(a, function(err, result){
+    console.log(err)
+    console.log(result)
+})
+
