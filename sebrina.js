@@ -71,10 +71,31 @@ function sebrina(cmd, cb){
 
 }
 
+function strToSebrina(s){
+    var key = 'sebrina'
+    var output = ''
+    function _gen(n, isString){
+        var o = []
+        if (isString){
+            n += 7
+        }
+        for (var i=0; i < n; i++){
+            o.push(key)
+        }
+        return o.join(' ') + '\n'
+    }
+    for (var i=0; i < s.length; i++){
+        output += _gen(s.codePointAt(i), true) 
+        output += _gen(5)
+    }
+    return output
+}
+
 var a = "sebrina sebrina sebrina sebrina sebrina sebrina sebrina sebrina sebrina\n"
 a += "brina\n"
 a += "sebrina \n"
 
+var a = (strToSebrina('你好嘢'))
 sebrina(a, function(err, result){
     console.log(err)
     console.log(result)
