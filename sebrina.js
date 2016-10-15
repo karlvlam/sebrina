@@ -1,17 +1,24 @@
 
 
+/*
+ * @function sebrina - process sebrina language
+ * @param {string} cmd -  
+ * @param cb - callback function of fn(err, result)  
+ *
+ */
 function sebrina(cmd, cb){
     var key = 'sebrina'
+    var stack = [] // stack for processing the data
     var output = ''
     var act = {
         clear: function(){ stack = [] },
-        add: function(){ stack.push(stack.pop() + stack.pop())},
-        sub: function(){ stack.push(stack.pop() - stack.pop())},
-        mult: function(){ stack.push(stack.pop() * stack.pop())},
-        pow: function(){ stack.push(Math.pow(stack.pop(), stack.pop()))},
-        flushStr: function(){ output += String.fromCodePoint(stack.pop())},
-        flushNum: function(){ output += stack.pop().toString()},
-        push: function(val){ stack.push(val) },
+            add: function(){ stack.push(stack.pop() + stack.pop())},
+            sub: function(){ stack.push(stack.pop() - stack.pop())},
+            mult: function(){ stack.push(stack.pop() * stack.pop())},
+            pow: function(){ stack.push(Math.pow(stack.pop(), stack.pop()))},
+            flushStr: function(){ output += String.fromCodePoint(stack.pop())},
+                flushNum: function(){ output += stack.pop().toString()},
+                    push: function(val){ stack.push(val) },
     }
 
     function op(n){
@@ -40,11 +47,10 @@ function sebrina(cmd, cb){
             default:
                 act['push'](n-7)
         }
-            
+
     }
 
 
-    var stack = []
     function processLine(line, idx){
         var count = 0
         line.split(' ').forEach(function(w){
@@ -71,7 +77,13 @@ function sebrina(cmd, cb){
 
 }
 
-function strToSebrina(s){
+/*
+ * @function ss - convert a string in to sebrina script 
+ * @param {string} s - any string  
+ * @return {string} - the sebrina script of the string input 
+ *
+ */
+function ss(s){
     var key = 'sebrina'
     var output = ''
     function _gen(n, isString){
@@ -91,10 +103,17 @@ function strToSebrina(s){
     return output
 }
 
-function ss(s){
+/*
+ * @function ss - convert a string in to sebrina script(use less space)
+ * @param {string} s - any string  
+ * @return {string} - the sebrina script of the string input 
+ *
+ */
+function ssMin(s){
     var key = 'sebrina'
     var output = [] 
-    var andTable = [1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768] 
+    var andTable = [1,2,4,8,16,32,64,128,256,512,
+        1024,2048,4096,8192,16384,32768] 
 
     function _gen(n, isNum){
         var o = []
@@ -107,25 +126,35 @@ function ss(s){
         return o.join(' ') + '\n'
     }
 
+    /* match every bit of a char, then add them all */
     function _genShort(n){
+        var bits = []
         if (n < 16){
-            output.push(_gen(n, true))
+            bits.push(_gen(n, true))
         }else{
             andTable.forEach(function(s, idx){
-                if (n && s === s){
+                if ((n & s) === s){
                     if (s < 16){
-                        output.push(_gen(s, true))
+                        bits.push(_gen(s, true))
 
                     }else{
-                        output.push(_gen(idx, true))
-                        output.push(_gen(2, true))
-                        output.push(_gen(1))
+                        var tmp = []
+                        tmp.push(_gen(idx, true))
+                        tmp.push(_gen(2, true))
+                        tmp.push(_gen(1))
+                        bits.push(tmp.join(''))
                     }
-                    output.push(_gen(2))
                 }
             })
-            output.pop()
         }
+
+        bits.forEach(function(s,idx){
+            output.push(s)
+            if (idx !== 0){
+                output.push(_gen(2))
+            }
+
+        })
 
     }
     for (var i=0; i < s.length; i++){
@@ -136,10 +165,12 @@ function ss(s){
 }
 
 
-//var a = (strToSebrina('你好嘢'))
-var a = (ss('A'))
-//console.log(a);
-sebrina(a, function(err, result){
-    console.log(err)
-    console.log(result)
+var t = '你'
+console.log(ss(t).split('sebrina').length)
+console.log(ssMin(t).split('sebrina').length)
+sebrina(ss(t), function(err, res){
+    console.log(res)
+})
+sebrina(ssMin(t), function(err, res){
+    console.log(res)
 })
