@@ -165,12 +165,4 @@ function ssMin(s){
 }
 
 
-var t = '你'
-console.log(ss(t).split('sebrina').length)
-console.log(ssMin(t).split('sebrina').length)
-sebrina(ss(t), function(err, res){
-    console.log(res)
-})
-sebrina(ssMin(t), function(err, res){
-    console.log(res)
-})
+
