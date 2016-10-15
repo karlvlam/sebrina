@@ -52,6 +52,10 @@ function sebrina(cmd, cb){
 
 
     function processLine(line, idx){
+        // skip comment
+        if(line.match(/#/)){
+            return
+        }
         var count = 0
         line.split(' ').forEach(function(w){
             if (w === key){
