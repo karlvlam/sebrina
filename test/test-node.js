@@ -1,13 +1,13 @@
-
 var fs = require('fs');
 var assert = require('assert');
 
 
-eval( fs.readFileSync('../sebrina.js', 'utf8'))
+eval( fs.readFileSync(__dirname+'/../sebrina.js', 'utf8'))
 
 
 var wordsToSebrina = [
-    'Dear 老婆仔'
+    'Dear 老婆仔',
+    'I love you!'
 ]
 
 wordsToSebrina.forEach(function(words){
