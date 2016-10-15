@@ -12,13 +12,13 @@ function sebrina(cmd, cb){
     var output = ''
     var act = {
         clear: function(){ stack = [] },
-            add: function(){ stack.push(stack.pop() + stack.pop())},
-            sub: function(){ stack.push(stack.pop() - stack.pop())},
-            mult: function(){ stack.push(stack.pop() * stack.pop())},
-            pow: function(){ stack.push(Math.pow(stack.pop(), stack.pop()))},
-            flushStr: function(){ output += String.fromCodePoint(stack.pop())},
-                flushNum: function(){ output += stack.pop().toString()},
-                    push: function(val){ stack.push(val) },
+        add: function(){ stack.push(stack.pop() + stack.pop())},
+        sub: function(){ stack.push(stack.pop() - stack.pop())},
+        mult: function(){ stack.push(stack.pop() * stack.pop())},
+        pow: function(){ stack.push(Math.pow(stack.pop(), stack.pop()))},
+        flushStr: function(){ output += String.fromCodePoint(stack.pop())},
+        flushNum: function(){ output += stack.pop().toString()},
+        push: function(val){ stack.push(val) }
     }
 
     function op(n){
