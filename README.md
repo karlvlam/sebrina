@@ -4,9 +4,9 @@
 I need a funny language to communicate and being named after my girl friend. 
 
 The syntax is very simple: 
-1. only a key word "sebrina" + "\n"
-2. lines contains "#" are comments, will be skipped by the parser
-3. words other than the above will be skipped
+- only a key word "sebrina" + "\n"
+- lines contains "#" are comments, will be skipped by the parser
+- words other than the above will be skipped
 
 # Specification
 
