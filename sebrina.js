@@ -87,16 +87,20 @@ function sebrina(cmd, cb){
  * @return {string} - the sebrina script of the string input 
  *
  */
-function ss(s){
+function ss(s, isRandom){
     var key = 'sebrina'
+
+    var keys = ['SEBRINA', 'sebrina']
+    var pickStack = []
     var output = ''
+
     function _gen(n, isString){
         var o = []
         if (isString){
             n += 7
         }
         for (var i=0; i < n; i++){
-            o.push(key)
+            o.push(randomSebrina(keys, pickStack))
         }
         return o.join(' ') + '\n'
     }
@@ -113,19 +117,24 @@ function ss(s){
  * @return {string} - the sebrina script of the string input 
  *
  */
-function ssMin(s){
+function ssMin(s, isRandom){
     var key = 'sebrina'
+    var keys = ['SEBRINA', 'sebrina']
+    var pickStack = []
+
     var output = [] 
     var andTable = [1,2,4,8,16,32,64,128,256,512,
         1024,2048,4096,8192,16384,32768] 
 
+var keys = ['SEBRINA', 'sebrina']
+var pickStack = []
     function _gen(n, isNum){
         var o = []
         if (isNum){
             n += 7
         }
         for (var i=0; i < n; i++){
-            o.push(key)
+            o.push(randomSebrina(keys, pickStack))
         }
         return o.join(' ') + '\n'
     }
@@ -168,5 +177,18 @@ function ssMin(s){
     return output.join('')
 }
 
+function randomSebrina(keys, stack){
+
+    var o = ''
+    for(var i=0; i < 7; i++){
+        if (stack.length === 0){
+            stack= Math.random().toString().substr(2).split('')
+            .map(function(o){ return o & 1})
+        }
+        o += keys[stack.pop()][i]
+    }
+
+    return o
+}
 
 
