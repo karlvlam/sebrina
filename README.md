@@ -40,6 +40,8 @@ This language is inspired by :
 - Chicken language http://torso.me/chicken
 
 # Example
+Here is an example of output the text "Sebrina". 
+You can also play with language at http://sebrina.love
 ```
 # The code point of "Sebrina" is 83,101,98,114,105,110,97
 # Next 3 lines : 2 + 1 = 3
