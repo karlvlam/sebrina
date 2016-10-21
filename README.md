@@ -16,8 +16,8 @@ I need a funny language to communicate and being named after my girl friend.
 
 The syntax is very simple: 
 - only a key word "sebrina" + "\n"
-- lines contains "#" are comments, will be skipped by the parser
-- words other than the above will be skipped
+- lines contains "#" will be skipped as comment line
+- any words other than the above will be skipped
 
 # Specification
 
@@ -34,6 +34,7 @@ The syntax is very simple:
 
 
 # Credits
+
 This language is inspired by :
 - Pikachu language https://en.wikipedia.org/wiki/Pikachu
 - MK language of Hong Kong 
